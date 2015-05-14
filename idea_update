@@ -1,0 +1,17 @@
+#!/bin/bash
+NAME=ideaIU-$1.tar.gz
+IDEA_PATH=$2
+PWD=$3
+echo $PWD
+if [ -f $NAME ]
+then
+    echo "$NAME exists"
+else
+    wget https://d1opms6zj7jotq.cloudfront.net/idea/$NAME
+fi
+echo $PWD
+echo $PWD | sudo -S rm -r $IDEA_PATH
+echo $PWD | sudo -S mkdir -p $IDEA_PATH
+echo $PWD | sudo -S chown `whoami` $IDEA_PATH
+tar -xzf $NAME --strip=1 -C $IDEA_PATH 
+
