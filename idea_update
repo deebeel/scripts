@@ -1,17 +1,36 @@
 #!/bin/bash
 NAME=ideaIU-$1.tar.gz
-IDEA_PATH=$2
+TARGET_PATH=$2
 PWD=$3
-echo $PWD
+TYPE=$4
+IDEA_URL=https://d1opms6zj7jotq.cloudfront.net/idea
+WEB_STORM_URL=http://download-cf.jetbrains.com/webstorm
+
+
+if [ $TYPE == "w" ]
+then
+  NAME=WebStorm-$1.tar.gz
+fi
+
+
 if [ -f $NAME ]
 then
     echo "$NAME exists"
 else
-    wget https://d1opms6zj7jotq.cloudfront.net/idea/$NAME
+  if [ $TYPE == "w" ]
+  then
+    wget $WEB_STORM_URL/$NAME
+  else
+    wget $IDEA_URL/$NAME
+  fi
 fi
-echo $PWD
-echo $PWD | sudo -S rm -r $IDEA_PATH
-echo $PWD | sudo -S mkdir -p $IDEA_PATH
-echo $PWD | sudo -S chown `whoami` $IDEA_PATH
-tar -xzf $NAME --strip=1 -C $IDEA_PATH 
+
+
+
+
+echo -e $PWD | sudo -S rm -r $TARGET_PATH
+echo -e $PWD | sudo -S mkdir -p $TARGET_PATH
+echo -e $PWD | sudo -S chown `whoami` $TARGET_PATH
+tar -xzf $NAME --strip=1 -C $TARGET_PATH
+rm $NAME
 
